@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -115,21 +116,52 @@ namespace programozasi_tetelek
         /// true if it contains the 
         /// 
         /// </returns>
-        public static bool LinearisKeres(IList values, Func<object, bool> LogikaiFg, out int index) 
+        public static bool LinearisKeres(IList values, Func<object, bool> LogikaiFg, out int index)
         {
             for (int i = 0; i < values.Count; i++)
-            {
                 if (LogikaiFg(values[i]))
                 {
                     index = i;
                     return true;
                 }
-            }
-
             index = -1;
             return false;
         }
-    
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="LogikaiFg"></param>
+        /// <returns>A logikai Fg-nek megfelelo listalemek darabszamat</returns>
+        public static int Megszamalas(IList list, Func<object,bool> LogikaiFg) 
+        {
+            int count = 0;
+            foreach (var item in list)
+                if (LogikaiFg(item))
+                    count++;
+            return count;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static IComparable MaximumErtek(IList<IComparable> list) 
+        {
+            IComparable max = list[0];
+            foreach (var item in list)
+                if(max.CompareTo(item) < 0)
+                    max = item; 
+            return max;
+        }
+        public static IComparable MinimumErtek(IList<IComparable> list) 
+        {
+            IComparable min = list[0];
+            foreach (var item in list)
+                if (min.CompareTo(item) > 0)
+                    min = item;
+            return min;
+        }
 
     }
 }
