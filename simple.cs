@@ -30,7 +30,7 @@ namespace programozasi_tetelek
         /// <param name="list">elenörizendö lista</param>
         /// <param name="Logic">ellenörzési logikai fg</param>
         /// <returns>igazat ha van benne, hamisat ha nincs benne</returns>
-        public static bool EldontesTetel(IList list,Func<object,bool> Logic) 
+        public static bool EldontesTetel(object[] list,Func<object,bool> Logic) 
         {
             foreach (var item in list)
                 if(Logic(item))
@@ -44,7 +44,7 @@ namespace programozasi_tetelek
         /// <param name="list">ellenörzendö lista</param>
         /// <param name="Logic">logikai feltétel</param>
         /// <returns>igazat ha mindre igaz a feltétel, hamisat ha valamelyikre hamis a feltétel</returns>
-        public static bool EldontesMindenTetel(IList list, Func<object, bool> Logic)
+        public static bool EldontesMindenTetel(object[] list, Func<object, bool> Logic)
         {
             foreach (var item in list)
                 if (!Logic(item))
@@ -75,18 +75,18 @@ namespace programozasi_tetelek
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static bool RendezetNovekvoSorrend(IList<IComparable> list)
+        public static bool RendezetNovekvoSorrend(IComparable[] list)
         {
-            if (list.Count < 2) return true;
-            for (int i = 0; i < list.Count - 1; i++)
+            if (list.Length < 2) return true;
+            for (int i = 0; i < list.Length - 1; i++)
                 if (list[i].CompareTo(list[i + 1]) > 0)
                     return false;
             return true;
         }
-        public static bool RendezetCsokkenoSorrend(IList<IComparable> list)
+        public static bool RendezetCsokkenoSorrend(IComparable[] list)
         {
-            if (list.Count < 2) return true;
-            for (int i = 0; i < list.Count - 1; i++)
+            if (list.Length < 2) return true;
+            for (int i = 0; i < list.Length - 1; i++)
                 if (list[i].CompareTo(list[i + 1]) < 0)
                     return false;
             return true;
@@ -95,14 +95,16 @@ namespace programozasi_tetelek
         /// A kiválasztás programozási tételt olyan feladatok esetén használjuk, amikor tudjuk, hogy egy tömbben
         /// van vizsgált tulajdonságú elem és keressük ennek első előfordulását.Könnyen belátható,
         /// hogy a megfelelő algoritmus nagyon hasonlít az eldöntés tétel megvalósítására.Különbség csak abban van, hogy
-        /// nem a tulajdonság legalább egyszeri teljesülését kell vizsgálnunk, hanem az első előfordulás indexét kell        /// megadnunk, tudva, hogy legalább egy elem esetén biztosan teljesül a tulajdonság.        /// </summary>
+        /// nem a tulajdonság legalább egyszeri teljesülését kell vizsgálnunk, hanem az első előfordulás indexét kell
+        /// megadnunk, tudva, hogy legalább egy elem esetén biztosan teljesül a tulajdonság.
+        /// </summary>
         /// <param name="list"></param>
         /// <param name="LogikaiFg"></param>
         /// <returns>elso logikai fgnek megfelelo index vagy -1 ha nincs ilyen elem</returns>
-        public static int Kivalasztas(IList list, Func<object, bool> LogikaiFg)
+        public static int Kivalasztas(object[] list, Func<object, bool> LogikaiFg)
         {
             int i = 0;
-            for (; i < list.Count && !LogikaiFg(list[i]); i++) ;
+            for (; i < list.Length && !LogikaiFg(list[i]); i++) ;
             return i;
         }
 
@@ -116,9 +118,9 @@ namespace programozasi_tetelek
         /// true if it contains the 
         /// 
         /// </returns>
-        public static bool LinearisKeres(IList values, Func<object, bool> LogikaiFg, out int index)
+        public static bool LinearisKeres(object[] values, Func<object, bool> LogikaiFg, out int index)
         {
-            for (int i = 0; i < values.Count; i++)
+            for (int i = 0; i < values.Length; i++)
                 if (LogikaiFg(values[i]))
                 {
                     index = i;
@@ -133,7 +135,7 @@ namespace programozasi_tetelek
         /// <param name="list"></param>
         /// <param name="LogikaiFg"></param>
         /// <returns>A logikai Fg-nek megfelelo listalemek darabszamat</returns>
-        public static int Megszamalas(IList list, Func<object,bool> LogikaiFg) 
+        public static int Megszamalas(object[] list, Func<object,bool> LogikaiFg) 
         {
             int count = 0;
             foreach (var item in list)
@@ -146,7 +148,7 @@ namespace programozasi_tetelek
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static IComparable MaximumErtek(IList<IComparable> list) 
+        public static IComparable MaximumErtek(IComparable[] list) 
         {
             IComparable max = list[0];
             foreach (var item in list)
@@ -154,7 +156,7 @@ namespace programozasi_tetelek
                     max = item; 
             return max;
         }
-        public static IComparable MinimumErtek(IList<IComparable> list) 
+        public static IComparable MinimumErtek(IComparable[] list) 
         {
             IComparable min = list[0];
             foreach (var item in list)
