@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace programozasi_tetelek
+﻿namespace programozasi_tetelek
 {
-    internal class Simple
+    public static class Simple
     {
         /// <summary>
         /// Lista elemeinek összegét kiszámolja
