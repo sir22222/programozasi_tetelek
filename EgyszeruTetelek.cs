@@ -1,13 +1,13 @@
 ﻿namespace programozasi_tetelek
 {
-    public static class Simple
+    public static class EgyszeruTetelek
     {
         /// <summary>
         /// Lista elemeinek összegét kiszámolja
         /// </summary>
         /// <param name="list">számokból álló lista amely összegét keresük</param>
         /// <returns>a lista értékeinek az összege</returns>
-        public static double SorozatSzamitas (double[] list)
+        public static double SorozatSzamitas(double[] list)
         {
             double sum = 0;
             for (int i = 0; i < list.Length; i++)
@@ -21,10 +21,10 @@
         /// <param name="list">elenörizendö lista</param>
         /// <param name="Logic">ellenörzési logikai fg</param>
         /// <returns>igazat ha van benne, hamisat ha nincs benne</returns>
-        public static bool EldontesTetel(object[] list,Func<object,bool> Logic) 
+        public static bool EldontesTetel(object[] list, Func<object, bool> Logic)
         {
             foreach (var item in list)
-                if(Logic(item))
+                if (Logic(item))
                     return true;
             return false;
         }
@@ -51,12 +51,12 @@
         /// true if it's an prime
         /// false if it's not a prime 
         /// </returns>
-        public static bool PrimTest(int value) 
+        public static bool PrimTest(int value)
         {
             if (value < 2) return false;
             int sqrt = (int)Math.Sqrt(value);
             for (int i = 2; i < sqrt; i++)
-                if (value%i==0)
+                if (value % i == 0)
                     return false;
             return true;
         }
@@ -126,7 +126,7 @@
         /// <param name="list"></param>
         /// <param name="LogikaiFg"></param>
         /// <returns>A logikai Fg-nek megfelelo listalemek darabszamat</returns>
-        public static int Megszamalas(object[] list, Func<object,bool> LogikaiFg) 
+        public static int Megszamalas(object[] list, Func<object, bool> LogikaiFg)
         {
             int count = 0;
             foreach (var item in list)
@@ -139,15 +139,15 @@
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static IComparable MaximumErtek(IComparable[] list) 
+        public static IComparable MaximumErtek(IComparable[] list)
         {
             IComparable max = list[0];
             foreach (var item in list)
-                if(max.CompareTo(item) < 0)
-                    max = item; 
+                if (max.CompareTo(item) < 0)
+                    max = item;
             return max;
         }
-        public static IComparable MinimumErtek(IComparable[] list) 
+        public static IComparable MinimumErtek(IComparable[] list)
         {
             IComparable min = list[0];
             foreach (var item in list)
