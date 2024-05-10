@@ -1,7 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
-
-namespace programozasi_tetelek
+﻿namespace programozasi_tetelek
 {
     public static class AlgoritmusokRendezettTombon
     {
@@ -104,8 +101,7 @@ namespace programozasi_tetelek
         }
 
 
-        public static int Kivalasztas(IComparable[] values, IComparable target)
-        {
+        public static int Kivalasztas(IComparable[] values, IComparable target){
             //int output;
             //LogaritmikusKereses(values, target, out output);
             //return output;
@@ -114,8 +110,7 @@ namespace programozasi_tetelek
                 pRight = values.Length - 1,
                 pCenter = (pLeft + pRight) / 2;
 
-            while (pLeft <= pRight && !target.Equals(values[pCenter]))
-            {
+            while (pLeft <= pRight && !target.Equals(values[pCenter])){
                 pCenter = (pLeft + pRight) / 2;
                 if (target.CompareTo(values[pCenter]) > 0)
                     pRight = pCenter - 1;
@@ -128,9 +123,7 @@ namespace programozasi_tetelek
             return -1;
         }
 
-        public static bool Kivalogatas(
-            IComparable[] values, IComparable target,
-            out int pLeft, out int pRight){
+        public static bool Kivalogatas(IComparable[] values, IComparable target,out int pLeft, out int pRight){
             pLeft = 0;
             pRight = values.Length - 1;
             int pCenter = (pLeft + pRight) / 2;
@@ -150,16 +143,12 @@ namespace programozasi_tetelek
             return true;
         }
 
-         public static bool ModositottKivalogatas(
-            IComparable[] values, 
-            IComparable targetRangeMin,IComparable targetRangeMax,
-            out int pLeft, out int pRight){
+         public static bool ModositottKivalogatas(IComparable[] values, IComparable targetRangeMin,IComparable targetRangeMax, out int pLeft, out int pRight){
             pLeft = 0;
             pRight = values.Length - 1;
             int pCenter = (pLeft + pRight) / 2;
 
-            while(pLeft <= pRight && !(targetRangeMin.CompareTo(values[pCenter])<= 0 && targetRangeMax.CompareTo(values[pCenter])>=0))
-            {
+            while(pLeft <= pRight && !(targetRangeMin.CompareTo(values[pCenter])<= 0 && targetRangeMax.CompareTo(values[pCenter])>=0)){
                 pCenter = (pLeft + pRight)/2;
                 if(targetRangeMax.CompareTo(values[pCenter])<0)
                     pRight =pCenter -1;
@@ -182,24 +171,23 @@ namespace programozasi_tetelek
         }       
 
 
-        public static int Megszamlalas(IComparable[] values, IComparable target)
-        {
+        public static int Megszamlalas(IComparable[] values, IComparable target){
             int pLeft,pRight;
             ModositottKivalogatas(values,target,target,out pLeft,out pRight);
             return pRight-pLeft;
         }
 #endregion
+
+
 #region halmazok
-        public static bool HalmazTulajdonsagVizsgalat(IComparable[] values)
-        {
+        public static bool HalmazTulajdonsagVizsgalat(IComparable[] values){
             if (values.Length<2) return true;
             int i = 1;
             for (; i < values.Length && !(values[i-1].CompareTo(values[i])== 0); i++);
             return i == values.Length;
         }
 
-        public static IComparable[] HalmazLétrehozzás(IComparable[] values)        
-        {
+        public static IComparable[] HalmazLétrehozzás(IComparable[] values){
             int size = 0;
 
             if(values.Length< 2) return values;
@@ -216,17 +204,105 @@ namespace programozasi_tetelek
 
         public static bool TartalmazasVizsgalat(IComparable[] values, IComparable target) => LinearisKereses(values,target,out int i);
 
-        public static bool ReszhalmazVizsgalat(IComparable[] subSetTo, IComparable[]subSetOf)
-        {
-            int pTo = 0, pOf = 0;
-            while(pTo < subSetTo.Length&& pOf<subSetOf.Length &&
-                subSetOf[pOf].CompareTo(subSetTo[pTo])> 0)
-                {
-                    
 
+        /// <summary>
+        /// chech if all elements of set A are contained in set B.
+        /// </summary>
+        /// <param name="setA"></param>
+        /// <param name="setB"></param>
+        /// <returns>if A is a subset of B</returns>
+        public static bool ReszhalmazVizsgalat(IComparable[] setA, IComparable[]setB){
+            int pA = 0, pB = 0;
+            while(
+                pA < setA.Length &&
+                pB < setB.Length &&
+                setA[pA].CompareTo(setB[pB]) >= 0){
+                    if(setA[pA].Equals(setB[pB]))
+                        pA++;
+                    pB++;
                 }
-                return pOf == subSetOf.Length;
+                return pB == setB.Length;
         }
+
+    public static IComparable[] Unio(IComparable[] setA,IComparable[] setB){
+        IComparable[] output = new IComparable[setA.Length+setB.Length];
+        int pA = 0, pB = 0, outCount = 0;;
+        while(pA<setA.Length && pB< setB.Length){
+            if(setA[pA].CompareTo(setB[pB])== 0){
+                output[outCount++] = setA[pA++];
+                pB++;
+            }
+            else if(setA[pA].CompareTo(setB[pB])<0)
+                output[outCount++] = setA[pA++];
+            else
+                output[outCount++] = setA[pB++];
+
+        }
+        return output.Take(outCount).ToArray();
+    }
+
+
+    public static IComparable[] Metszet(IComparable[] setA,IComparable[] setB){
+        IComparable[] output = new IComparable[setA.Length.CompareTo(setB.Length) <= 0 ? setA.Length : setB.Length];
+        int pA = 0, pB = 0, outCount = 0;;
+        while(pA<setA.Length && pB< setB.Length){
+            if(setA[pA].CompareTo(setB[pB])== 0){
+                output[outCount++] = setA[pA++];
+                pB++;
+            }
+            else if(setA[pA].CompareTo(setB[pB])<0)
+                pA++;
+            else
+                pB++;
+
+        }
+        return output.Take(outCount).ToArray();
+    }
+    /// <summary>
+    /// Creates a new array containing the values of set A that are not in set B;
+    /// </summary>
+    /// <param name="setA"></param>
+    /// <param name="setB"></param>
+    /// <returns>IComparable array containg values of A that</returns>
+    public static IComparable[] Kulonbseg(IComparable[] setA,IComparable[] setB){
+        IComparable[] output = new IComparable[setA.Length];
+        int pA = 0, pB = 0, outCount = 0;;
+        while(pA<setA.Length && pB< setB.Length){
+            if(setA[pA].CompareTo(setB[pB])== 0){
+                pA++;
+                pB++;
+            }
+            else if(setA[pA].CompareTo(setB[pB])<0)
+                output[outCount++] = setA[pA++];
+            else
+                pB++;
+        }
+        while(pA<setA.Length)
+            output[outCount++] = setA[pA++];
+
+        return output.Take(outCount).ToArray();
+    }
+    //public static IComparable[] SzimetrikusDifferencia(IComparable[] setA ,IComparable[] setB) => Unio(Kulonbseg(setA,setB),Kulonbseg(setB,setA));
+    public static IComparable[] SzimetrikusDifferencia(IComparable[] setA,IComparable[] setB){
+        IComparable[] output = new IComparable[setA.Length];
+        int pA = 0, pB = 0, outCount = 0;;
+        while(pA<setA.Length && pB< setB.Length){
+            if(setA[pA].CompareTo(setB[pB])== 0){
+                pA++;
+                pB++;
+            }
+            else if(setA[pA].CompareTo(setB[pB])<0)
+                output[outCount++] = setA[pA++];
+            else
+                output[outCount++] = setA[pB++];
+        }
+        while(pA<setA.Length)
+            output[outCount++] = setA[pA++];
+        while(pB<setB.Length)
+            output[outCount++] = setB[pB++];
+
+        return output.Take(outCount).ToArray();
+    }
 #endregion
     }
 }
